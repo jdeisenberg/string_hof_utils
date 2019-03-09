@@ -1,4 +1,4 @@
-# String Higher Order Function Utilities
+# ReasonML String Higher Order Function Utilities
 
 This module implements the following functions:
 
