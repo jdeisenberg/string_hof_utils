@@ -7,15 +7,20 @@ function addDash(s) {
   return s + "-";
 }
 
-var result = StringHof$Stringhofutils.stringMap("abcde", addDash);
+var result = StringHof$Stringhofutils.stringMap("aßcд😺你", addDash);
 
 console.log(result);
 
 function toCode(s) {
-  return s.charCodeAt(0);
+  var match = s.codePointAt(0);
+  if (match !== undefined) {
+    return match;
+  } else {
+    return 0;
+  }
 }
 
-var result2 = StringHof$Stringhofutils.map("abcde", toCode);
+var result2 = StringHof$Stringhofutils.map("aßcд😺你", toCode);
 
 console.log(result2);
 
@@ -35,7 +40,7 @@ function reverser(acc, item) {
   return item + acc;
 }
 
-var result5 = StringHof$Stringhofutils.reduce("abcde", "", reverser);
+var result5 = StringHof$Stringhofutils.reduce("aßcд😺你", "", reverser);
 
 console.log(result5);
 

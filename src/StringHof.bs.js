@@ -4,17 +4,34 @@
 var Curry = require("bs-platform/lib/js/curry.js");
 var Belt_Array = require("bs-platform/lib/js/belt_Array.js");
 
+function complexCharAt(s, n) {
+  var cPoint = s.codePointAt(n);
+  if (cPoint !== undefined) {
+    var match = cPoint > 65535;
+    return /* tuple */[
+            String.fromCodePoint(cPoint),
+            match ? 2 : 1
+          ];
+  } else {
+    return /* tuple */[
+            "",
+            1
+          ];
+  }
+}
+
 function reduce(s, acc, f) {
   var _acc = acc;
   var _index = 0;
   while(true) {
     var index = _index;
     var acc$1 = _acc;
-    if (index === s.length) {
+    if (index >= s.length) {
       return acc$1;
     } else {
-      _index = index + 1 | 0;
-      _acc = Curry._2(f, acc$1, s[index]);
+      var match = complexCharAt(s, index);
+      _index = index + match[1] | 0;
+      _acc = Curry._2(f, acc$1, match[0]);
       continue ;
     }
   };
@@ -52,6 +69,7 @@ function keep(s, f) {
               }));
 }
 
+exports.complexCharAt = complexCharAt;
 exports.reduce = reduce;
 exports.stringMap = stringMap;
 exports.map = map;

@@ -16,11 +16,22 @@
   ]}
 */
 
+let complexCharAt = (s: string, n: int): (string, int) => {
+  let cPoint = Js.String.codePointAt(n, s);
+  switch (cPoint) {
+    | Some(point) => (Js.String.fromCodePoint(point), (point > 65535) ? 2 : 1)
+    | None => ("", 1)
+  }
+};
+
 let reduce = (s: string, acc: 'a, f: ('a, string) => 'a): 'a => {
   let rec helper = (acc: 'a, index: int) =>
     switch (index) {
-    | n when n === Js.String.length(s) => acc
-    | n => helper(f(acc, Js.String.get(s, n)), n + 1)
+    | n when n >= Js.String.length(s) => acc
+    | n => {
+        let (theChar, nBytes) = complexCharAt(s, n);
+        helper(f(acc, theChar), n + nBytes);
+      }
     };
 
   helper(acc, 0);
@@ -44,7 +55,7 @@ let stringMap = (s: string, f: string => string): string =>
   returning an array containing the results of the function calls.
 
   @example {[
-    let toCode = (s: string): float => Js.String.charCodeAt(0, s);
+    let toCode = (s: string): float => Js.String.codePointAt(0, s);
     map("abcde", toCode) == [|97.0, 98.0, 99.0, 100.0, 101.0|];
   ]}
 */
