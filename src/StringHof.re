@@ -16,7 +16,12 @@
   ]}
 */
 
-let complexCharAt = (s: string, n: int): (string, int) => {
+/* 
+  Returns tuple containing unicode character at position n
+  and length in UTF-16 units (1 or 2). If invalid, presume
+  it consumes one UTF-16 unit.
+*/
+let unicodeCharAt = (s: string, n: int): (string, int) => {
   let cPoint = Js.String.codePointAt(n, s);
   switch (cPoint) {
     | Some(point) => (Js.String.fromCodePoint(point), (point > 65535) ? 2 : 1)
@@ -29,7 +34,7 @@ let reduce = (s: string, acc: 'a, f: ('a, string) => 'a): 'a => {
     switch (index) {
     | n when n >= Js.String.length(s) => acc
     | n => {
-        let (theChar, nBytes) = complexCharAt(s, n);
+        let (theChar, nBytes) = unicodeCharAt(s, n);
         helper(f(acc, theChar), n + nBytes);
       }
     };
