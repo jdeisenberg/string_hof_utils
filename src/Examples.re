@@ -1,4 +1,4 @@
-/* Here are some examples */
+/* Here are some examples of the string higher-order functions. */
 
 let addDash = (s: string): string => s ++ "-";
 
