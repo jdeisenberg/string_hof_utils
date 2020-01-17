@@ -8,6 +8,8 @@ This module implements the following functions:
 
 See file `src/Examples.re` for examples.
 
+I have a `Native` directory that uses `String` and `Array` rather than `Js.String` and `Js.Array`, which may be more suitable for native builds.
+
 # Build
 ```
 npm run build
